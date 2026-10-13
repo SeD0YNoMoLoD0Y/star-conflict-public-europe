@@ -13,6 +13,7 @@ This project is not affiliated with Gaijin or StarGem. Star Conflict and its fil
 - **Start, stop and backup** scripts that shut MongoDB down safely.
 - **Restart with an in-game countdown**: players get the built-in "maintenance in N minutes" notice and are disconnected cleanly.
 - **Gameplay fixes and low-population tuning**:
+  - Detonation bots pick up, carry and plant bombs, support their carrier, and retarget when a bomb site is destroyed;
   - broken loot tables fixed;
   - iridium in every battle;
   - PvP and vs-AI pools split by tier;

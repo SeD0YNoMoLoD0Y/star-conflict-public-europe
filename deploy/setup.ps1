@@ -21,6 +21,10 @@ if ($LASTEXITCODE -ge 8) { throw "robocopy failed with code $LASTEXITCODE" }
 # 2. Our changes on top of stock: tutorial premium (50 years) and flood threshold
 Copy-Item "$kit\files\*" $ServerDir -Recurse -Force
 
+# Apply the server-only Detonation bot fixes to the supported stock binary.
+# The patcher verifies both input and output SHA-256 and keeps a local backup.
+& "$kit\patches\detonation-ai\apply.ps1" -ServerDir $ServerDir
+
 # 3. Advertise the public address to clients (cloud.xml defaults to 127.0.0.1)
 $cloudXml = "$ServerDir\cloud\data\cloud.xml"
 (Get-Content $cloudXml) -replace 'address="127\.0\.0\.1:3850"', "address=`"${PublicIp}:3850`"" | Set-Content $cloudXml -Encoding ASCII

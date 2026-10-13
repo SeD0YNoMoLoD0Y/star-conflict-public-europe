@@ -8,6 +8,35 @@ All changes are in four files under `deploy/files`, which `setup.ps1` copies ove
 
 Every change below was tested on a local server before going live. Values are what we run; tune them to your population.
 
+## Detonation bot AI
+
+`deploy/patches/detonation-ai/apply.ps1` applies a server-only binary patch to
+`cloud/DedicatedServer.exe`. The stock executable is not stored in this
+repository. The patcher accepts only SHA-256
+`061175DA4E4DA8D74BBB599F359CD4B4FD3C3B7BBE0FF9B56E6EC0D88D2C2378`,
+backs it up, validates every original byte range, and verifies the patched
+SHA-256 before reporting success.
+
+The change makes Detonation bots:
+
+- assign the nearest eligible bot to a free or dropped bomb;
+- carry the bomb toward a live enemy bomb site without combat stopping movement;
+- keep aiming and firing while delivering it;
+- support a friendly carrier and prioritize an enemy carrier;
+- clear stale bomb ownership after a carrier is lost;
+- select another live enemy bomb site if the current target is destroyed.
+
+Local tests covered dropped-bomb recovery, simultaneous carriers and a carrier
+retargeting after another bot destroyed its selected site. Four bot plants were
+recorded in the final match, which ended normally with
+`BOMB_THE_BASE_BOMBED`. No client modification is required.
+
+Revert: stop all battle servers and restore the newest
+`DedicatedServer.exe.before-detonation-ai-*.bak` over
+`cloud/DedicatedServer.exe`. A Steam update may replace the supported binary;
+in that case the patcher stops without changing it and must be updated for the
+new executable.
+
 ## Loot
 
 ### Common loot tables fixed (stock bug)
